@@ -1,7 +1,15 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+from src.api.auth import router as auth_router
+from src.api.openapi_schemas import openapi_tags
+
+app = FastAPI(
+    title="Micro-Membership SaaS Platform Backend",
+    description="REST API for membership, RBAC, event, accounting, and tenant management (Super/State/District/Branch Admin, Member).",
+    version="0.1.0",
+    openapi_tags=openapi_tags
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -11,6 +19,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
+# Mount authentication and RBAC endpoints
+app.include_router(auth_router)
+
+@app.get("/", tags=["Misc"])
 def health_check():
+    """Health check endpoint for system uptime monitoring."""
     return {"message": "Healthy"}
+
