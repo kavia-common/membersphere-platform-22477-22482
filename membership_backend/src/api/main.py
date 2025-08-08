@@ -4,18 +4,17 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.api.auth import router as auth_router
 from src.api.membership import router as membership_router
 from src.api.openapi_schemas import openapi_tags
-
-from src.api.subscriptions import router as subscription_router
-from src.api.payments import router as payment_router
-
+from src.api.subscriptions import router as subscriptions_router
+from src.api.payments import router as payments_router
 from src.api.events import router as events_router
 from src.api.qrcodes import router as qrcodes_router
 from src.api.accounting import router as accounting_router
 from src.api.reports import router as reports_router
-
 from src.api.branding import router as branding_router
 from src.api.settings import router as settings_router
 from src.api.i18n import router as i18n_router
+
+# Ensure all routers listed in src/api/ are registered and exposed.
 
 app = FastAPI(
     title="Micro-Membership SaaS Platform Backend",
@@ -32,18 +31,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Mount authentication and RBAC endpoints
+# Register all App Routers - Full API Exposure for Frontend
 app.include_router(auth_router)
-# Mount users, groups (families), org CRUD endpoints
 app.include_router(membership_router)
-# Mount subscription endpoints
-app.include_router(subscription_router)
-# Mount payment endpoints
-app.include_router(payment_router)
-# Mount event and QR code endpoints
+app.include_router(subscriptions_router)
+app.include_router(payments_router)
 app.include_router(events_router)
 app.include_router(qrcodes_router)
-# Mount accounting and reporting endpoints
 app.include_router(accounting_router)
 app.include_router(reports_router)
 app.include_router(branding_router)
@@ -54,4 +48,3 @@ app.include_router(i18n_router)
 def health_check():
     """Health check endpoint for system uptime monitoring."""
     return {"message": "Healthy"}
-
