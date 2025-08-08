@@ -8,6 +8,9 @@ from src.api.openapi_schemas import openapi_tags
 from src.api.subscriptions import router as subscription_router
 from src.api.payments import router as payment_router
 
+from src.api.events import router as events_router
+from src.api.qrcodes import router as qrcodes_router
+
 app = FastAPI(
     title="Micro-Membership SaaS Platform Backend",
     description="REST API for membership, RBAC, event, accounting, and tenant management (Super/State/District/Branch Admin, Member).",
@@ -31,6 +34,9 @@ app.include_router(membership_router)
 app.include_router(subscription_router)
 # Mount payment endpoints
 app.include_router(payment_router)
+# Mount event and QR code endpoints
+app.include_router(events_router)
+app.include_router(qrcodes_router)
 
 @app.get("/", tags=["Misc"])
 def health_check():
