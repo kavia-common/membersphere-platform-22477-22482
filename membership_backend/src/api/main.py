@@ -10,6 +10,8 @@ from src.api.payments import router as payment_router
 
 from src.api.events import router as events_router
 from src.api.qrcodes import router as qrcodes_router
+from src.api.accounting import router as accounting_router
+from src.api.reports import router as reports_router
 
 app = FastAPI(
     title="Micro-Membership SaaS Platform Backend",
@@ -37,6 +39,9 @@ app.include_router(payment_router)
 # Mount event and QR code endpoints
 app.include_router(events_router)
 app.include_router(qrcodes_router)
+# Mount accounting and reporting endpoints
+app.include_router(accounting_router)
+app.include_router(reports_router)
 
 @app.get("/", tags=["Misc"])
 def health_check():
