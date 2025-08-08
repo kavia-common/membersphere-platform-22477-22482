@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.api.auth import router as auth_router
+from src.api.membership import router as membership_router
 from src.api.openapi_schemas import openapi_tags
 
 app = FastAPI(
@@ -21,6 +22,8 @@ app.add_middleware(
 
 # Mount authentication and RBAC endpoints
 app.include_router(auth_router)
+# Mount users, groups (families), org CRUD endpoints
+app.include_router(membership_router)
 
 @app.get("/", tags=["Misc"])
 def health_check():
