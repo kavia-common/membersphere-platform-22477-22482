@@ -13,6 +13,10 @@ from src.api.qrcodes import router as qrcodes_router
 from src.api.accounting import router as accounting_router
 from src.api.reports import router as reports_router
 
+from src.api.branding import router as branding_router
+from src.api.settings import router as settings_router
+from src.api.i18n import router as i18n_router
+
 app = FastAPI(
     title="Micro-Membership SaaS Platform Backend",
     description="REST API for membership, RBAC, event, accounting, and tenant management (Super/State/District/Branch Admin, Member).",
@@ -42,6 +46,9 @@ app.include_router(qrcodes_router)
 # Mount accounting and reporting endpoints
 app.include_router(accounting_router)
 app.include_router(reports_router)
+app.include_router(branding_router)
+app.include_router(settings_router)
+app.include_router(i18n_router)
 
 @app.get("/", tags=["Misc"])
 def health_check():
